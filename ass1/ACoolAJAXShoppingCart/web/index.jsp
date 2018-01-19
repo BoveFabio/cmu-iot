@@ -15,9 +15,11 @@
                 <thead><th>Name</th><th>Description</th><th>Price</th><th></th></thead>
                 <tbody>
                     <%-- ! loop through all items in the catalog and display them with details --%>
-                    <% Catalog.getAllItems().forEach(item -> {%>
+                    <% 
+                        for(Item item : Catalog.getAllItems()) {
+                    %>
                     <tr><td><%= item.getName()%></td><td><%= item.getDescription()%></td><td><%= item.getFormattedPrice()%></td><td><button onclick="addToCart('<%= item.getCode()%>')">Add to Cart</button></td></tr>
-                    <% });%>
+                    <% }%>
                 </tbody>
             </table>
             <div style="position: absolute; top: 0px; right: 0px; width: 250px">
