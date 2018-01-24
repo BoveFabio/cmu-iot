@@ -13,8 +13,11 @@ function addToCart(itemCode) {
     req.onreadystatechange = getReadyStateHandler(req, updateCart);
 
     req.open("POST", "cart.do", true);
-    req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    req.send("action=add&item=" + itemCode);
+    req.setRequestHeader("Content-Type", "application/json");
+    var interactionObject = {};
+    interactionObject.action = "add";
+    interactionObject.itemCode = itemCode;
+    req.send(JSON.stringify(interactionObject));
 }
 
 function removeFromCart(itemCode){
@@ -23,9 +26,14 @@ function removeFromCart(itemCode){
     req.onreadystatechange = getReadyStateHandler(req, updateCart);
     
     req.open("POST", "cart.do", true);
-    req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    req.send("action=remove&item=" + itemCode);
+    req.setRequestHeader("Content-Type", "application/json");
+    var interactionObject = {};
+    interactionObject.action = "remove";
+    interactionObject.itemCode = itemCode;
+    req.send(JSON.stringify(interactionObject));
 }
+
+// TODO maybe add extra function for just initializing cart when loading page?
 
 
 /*

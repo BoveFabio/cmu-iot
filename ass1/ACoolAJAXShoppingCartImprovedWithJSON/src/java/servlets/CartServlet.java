@@ -1,11 +1,16 @@
 package servlets;
 
+import java.io.StringReader;
 import java.util.Collections;
 import store.Cart;
 import javax.servlet.http.*;
 
 import java.util.Enumeration;
 import java.util.List;
+import java.util.stream.Collectors;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 
 public class CartServlet extends HttpServlet {
 
@@ -22,22 +27,26 @@ public class CartServlet extends HttpServlet {
         // Retrieve cart from session or create new one
         Cart cart = getCartFromSession(req);
 
-        // Get reqired parameter values
-        String action = req.getParameter("action");
-        String item = req.getParameter("item");
-        System.out.println(action + " " + item);
+        // Read incoming JSON
+        String requestBodyString = req.getReader().lines().collect(Collectors.joining());
+        JsonReader jsonReader = Json.createReader(new StringReader(requestBodyString));
+        JsonObject interactionInput = jsonReader.readObject();
+        jsonReader.close();
+        String action = interactionInput.getString("action");
+        String itemCode = interactionInput.getString("itemCode");
+        System.out.println(action + " " + itemCode);
 
         /*
         Check whether action and item are present
         If one is not provided or if the action does not equal "add" nor "remove", nothing happens (i.e., no error)
          */
-        if ((action != null) && (item != null)) {
+        if ((action != null) && (itemCode != null)) {
             System.out.println("Doing some action");
             if ("add".equals(action)) {
-                cart.addItem(item);
+                cart.addItem(itemCode);
 
             } else if ("remove".equals(action)) {
-                cart.decreaseItemQuantity(item);
+                cart.decreaseItemQuantity(itemCode);
 
             }
         }
