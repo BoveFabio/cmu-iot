@@ -5,35 +5,55 @@ var lastCartUpdate = 0;
  * Adds the specified item to the shopping cart, via Ajax call
  * itemCode - product code of the item to add
  */
-function addToCart(itemCode) {
-
+function addToCartXml(itemCode) {
     var req = newXMLHttpRequest();
     
     // updateCart is executed when response for request arrives
     req.onreadystatechange = getReadyStateHandler(req, updateCart);
 
     req.open("POST", "cart.do", true);
-    req.setRequestHeader("Content-Type", "application/json");
-    var interactionObject = {};
-    interactionObject.action = "add";
-    interactionObject.itemCode = itemCode;
-    req.send(JSON.stringify(interactionObject));
+
+    req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    req.send("action=add&item=" + itemCode);
 }
 
-function removeFromCart(itemCode){
+function addToCartJson(itemCode) {
+var req = newXMLHttpRequest();
+    
+    req.onreadystatechange = getReadyStateHandler(req, updateCart);
+    
+    req.open("POST", "cart.do", true);
+    req.setRequestHeader("Content-Type", "application/json");
+    var interaction = {};
+    interaction.action = "add";
+    interaction.item = itemCode;
+    
+    req.send(JSON.stringify(interaction));
+}
+
+function removeFromCartXml(itemCode){
+    var req = newXMLHttpRequest();
+    
+    req.onreadystatechange = getReadyStateHandler(req, updateCart);
+    
+    req.open("POST", "cart.do", true);
+    req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    req.send("action=remove&item=" + itemCode);
+}
+
+function removeFromCartJson(itemCode){
     var req = newXMLHttpRequest();
     
     req.onreadystatechange = getReadyStateHandler(req, updateCart);
     
     req.open("POST", "cart.do", true);
     req.setRequestHeader("Content-Type", "application/json");
-    var interactionObject = {};
-    interactionObject.action = "remove";
-    interactionObject.itemCode = itemCode;
-    req.send(JSON.stringify(interactionObject));
+    var interaction = {};
+    interaction.action = "remove";
+    interaction.item = itemCode;
+    
+    req.send(JSON.stringify(interaction));
 }
-
-// TODO maybe add extra function for just initializing cart when loading page?
 
 
 /*

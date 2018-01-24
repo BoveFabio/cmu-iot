@@ -15,10 +15,17 @@
                 <thead><th>Name</th><th>Description</th><th>Price</th><th></th></thead>
                 <tbody>
                     <%-- ! loop through all items in the catalog and display them with details --%>
+<<<<<<< HEAD
                     <% 
                         for(Item item : Catalog.getAllItems()) {
                     %>
                     <tr><td><%= item.getName()%></td><td><%= item.getDescription()%></td><td><%= item.getFormattedPrice()%></td><td><button onclick="addToCart('<%= item.getCode()%>')">Add to Cart</button></td><td><button onclick="removeFromCart('<%= item.getCode()%>')">Remove from Cart</button></td></tr>
+=======
+                    <%
+                        for (Item item : Catalog.getAllItems()) {
+                    %>
+                    <tr><td><%= item.getName()%></td><td><%= item.getDescription()%></td><td><%= item.getFormattedPrice()%></td><td><button onclick="addToCartJson('<%= item.getCode()%>')">Add to Cart</button></td><td><button onclick="removeFromCartJson('<%= item.getCode()%>')">Remove from Cart</button></td></tr>
+>>>>>>> json-fix
                     <% }%>
                 </tbody>
             </table>
@@ -28,5 +35,12 @@
                 </ul>
                 Total cost: <span id="total">$0.00</span>
             </div>
+<<<<<<< HEAD
+=======
+        </div>
+        <!-- only intermediary solution -->
+        <!-- By calling the removeFromCart function, we make a dummy interaction with the server, resulting in an answer with the unchanged current cart. -->
+        <script>removeFromCartJson("INITIAL_UPDATE")</script>
+>>>>>>> json-fix
     </body>
 </html>

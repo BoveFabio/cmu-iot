@@ -1,5 +1,6 @@
 package servlets;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.Collections;
 import store.Cart;
@@ -27,37 +28,42 @@ public class CartServlet extends HttpServlet {
         // Retrieve cart from session or create new one
         Cart cart = getCartFromSession(req);
 
-        // Read incoming JSON
-        String requestBodyString = req.getReader().lines().collect(Collectors.joining());
-        JsonReader jsonReader = Json.createReader(new StringReader(requestBodyString));
-        JsonObject interactionInput = jsonReader.readObject();
-        jsonReader.close();
-        String action = interactionInput.getString("action");
-        String itemCode = interactionInput.getString("itemCode");
-        System.out.println(action + " " + itemCode);
+        // Get reqired parameter values
+        String action = "";
+        String item = "";
+        if (false) {
+            action = req.getParameter("action");
+            item = req.getParameter("item");
+        } else{
+            String requestBody = req.getReader().lines().collect(Collectors.joining());
+            System.out.println(requestBody);
+            JsonReader reader = Json.createReader(new StringReader(requestBody));
+            JsonObject interactionObject = reader.readObject();
+            
+            action = interactionObject.getString("action");
+            item = interactionObject.getString("item");
+        }
+        System.out.println(action + " " + item);
 
         /*
         Check whether action and item are present
         If one is not provided or if the action does not equal "add" nor "remove", nothing happens (i.e., no error)
          */
-        if ((action != null) && (itemCode != null)) {
+        if ((action != null) && (item != null)) {
             System.out.println("Doing some action");
             if ("add".equals(action)) {
-                cart.addItem(itemCode);
+                cart.addItem(item);
 
             } else if ("remove".equals(action)) {
-                cart.decreaseItemQuantity(itemCode);
+                cart.decreaseItemQuantity(item);
 
             }
         }
 
         // encode cart as XML, tell the response that it contains XML, and write the cart to it (as payload)
-        String cartXml = cart.toXml();
-        String cartJson = cart.toJSON();
-        System.out.println("Json to be sent back: " + cartJson);
-        //res.setContentType("text/xml");
-        res.setContentType("application/json");
-        res.getWriter().write(cartJson);
+        //sendXMLResponse(res, cart);
+        // encode cart as JSON, tell the response that it contains JSON, and write the cart to it (as payload)
+        sendJsonResponse(res, cart);
     }
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws java.io.IOException {
@@ -80,5 +86,18 @@ public class CartServlet extends HttpServlet {
         }
 
         return cart;
+    }
+
+    private void sendXMLResponse(HttpServletResponse res, Cart cart) throws IOException {
+        String cartXml = cart.toXml();
+        res.setContentType("text/xml");
+        res.getWriter().write(cartXml);
+    }
+
+    private void sendJsonResponse(HttpServletResponse res, Cart cart) throws IOException {
+        String cartJson = cart.toJSON();
+        System.out.println("Json to be sent back: " + cartJson);
+        res.setContentType("application/json");
+        res.getWriter().write(cartJson);
     }
 }
