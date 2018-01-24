@@ -18,7 +18,7 @@
                     <%
                         for (Item item : Catalog.getAllItems()) {
                     %>
-                    <tr><td><%= item.getName()%></td><td><%= item.getDescription()%></td><td><%= item.getFormattedPrice()%></td><td><button onclick="addToCart('<%= item.getCode()%>')">Add to Cart</button></td><td><button onclick="removeFromCart('<%= item.getCode()%>')">Remove from Cart</button></td></tr>
+                    <tr><td><%= item.getName()%></td><td><%= item.getDescription()%></td><td><%= item.getFormattedPrice()%></td><td><button onclick="addToCartJson('<%= item.getCode()%>')">Add to Cart</button></td><td><button onclick="removeFromCartJson('<%= item.getCode()%>')">Remove from Cart</button></td></tr>
                     <% }%>
                 </tbody>
             </table>
@@ -31,6 +31,6 @@
         </div>
         <!-- only intermediary solution -->
         <!-- By calling the removeFromCart function, we make a dummy interaction with the server, resulting in an answer with the unchanged current cart. -->
-        <script>removeFromCart(null)</script>
+        <script>removeFromCartJson("INITIAL_UPDATE")</script>
     </body>
 </html>

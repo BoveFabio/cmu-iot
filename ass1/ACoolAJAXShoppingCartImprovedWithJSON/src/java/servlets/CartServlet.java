@@ -1,11 +1,17 @@
 package servlets;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.Collections;
 import store.Cart;
 import javax.servlet.http.*;
 
 import java.util.Enumeration;
 import java.util.List;
+import java.util.stream.Collectors;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 
 public class CartServlet extends HttpServlet {
 
@@ -23,8 +29,20 @@ public class CartServlet extends HttpServlet {
         Cart cart = getCartFromSession(req);
 
         // Get reqired parameter values
-        String action = req.getParameter("action");
-        String item = req.getParameter("item");
+        String action = "";
+        String item = "";
+        if (false) {
+            action = req.getParameter("action");
+            item = req.getParameter("item");
+        } else{
+            String requestBody = req.getReader().lines().collect(Collectors.joining());
+            System.out.println(requestBody);
+            JsonReader reader = Json.createReader(new StringReader(requestBody));
+            JsonObject interactionObject = reader.readObject();
+            
+            action = interactionObject.getString("action");
+            item = interactionObject.getString("item");
+        }
         System.out.println(action + " " + item);
 
         /*
@@ -43,12 +61,9 @@ public class CartServlet extends HttpServlet {
         }
 
         // encode cart as XML, tell the response that it contains XML, and write the cart to it (as payload)
-        String cartXml = cart.toXml();
-        String cartJson = cart.toJSON();
-        System.out.println("Json to be sent back: " + cartJson);
-        //res.setContentType("text/xml");
-        res.setContentType("application/json");
-        res.getWriter().write(cartJson);
+        //sendXMLResponse(res, cart);
+        // encode cart as JSON, tell the response that it contains JSON, and write the cart to it (as payload)
+        sendJsonResponse(res, cart);
     }
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws java.io.IOException {
@@ -71,5 +86,18 @@ public class CartServlet extends HttpServlet {
         }
 
         return cart;
+    }
+
+    private void sendXMLResponse(HttpServletResponse res, Cart cart) throws IOException {
+        String cartXml = cart.toXml();
+        res.setContentType("text/xml");
+        res.getWriter().write(cartXml);
+    }
+
+    private void sendJsonResponse(HttpServletResponse res, Cart cart) throws IOException {
+        String cartJson = cart.toJSON();
+        System.out.println("Json to be sent back: " + cartJson);
+        res.setContentType("application/json");
+        res.getWriter().write(cartJson);
     }
 }
