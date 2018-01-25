@@ -94,32 +94,6 @@ public class Cart {
         return ob.build().toString();
     }
 
-    /**
-     * @return XML representation of cart contents
-     */
-    public String toXml() {
-        StringBuffer xml = new StringBuffer();
-        xml.append("<?xml version=\"1.0\"?>\n");
-        xml.append("<cart generated=\"" + System.currentTimeMillis() + "\" total=\"" + getCartTotal() + "\">\n");
-
-        contents.keySet().forEach(item -> {
-            int itemQuantity = contents.get(item).intValue();
-
-            // Could we not put name and quantity ito item as we do woth the code?
-            xml.append("<item code=\"" + item.getCode() + "\">\n");
-            xml.append("<name>");
-            xml.append(item.getName());
-            xml.append("</name>\n");
-            xml.append("<quantity>");
-            xml.append(itemQuantity);
-            xml.append("</quantity>\n");
-            xml.append("</item>\n");
-        });
-
-        xml.append("</cart>\n");
-        return xml.toString();
-    }
-
     private String getCartTotal() {
         int total = 0;
 

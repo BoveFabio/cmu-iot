@@ -3,11 +3,11 @@
  * doesn't support it
  */
 function newXMLHttpRequest() {
-    var xmlreq = false;
+    var xhr = false;
 
     // Create XMLHttpRequest object in non-Microsoft browsers
     if (window.XMLHttpRequest) {
-        xmlreq = new XMLHttpRequest();
+        xhr = new XMLHttpRequest();
 
     } else if (window.ActiveXObject) {
 
@@ -15,7 +15,7 @@ function newXMLHttpRequest() {
             // Try to create XMLHttpRequest in later versions
             // of Internet Explorer
 
-            xmlreq = new ActiveXObject("Msxml2.XMLHTTP");
+            xhr = new ActiveXObject("Msxml2.XMLHTTP");
 
         } catch (e1) {
 
@@ -25,17 +25,17 @@ function newXMLHttpRequest() {
                 // Try version supported by older versions
                 // of Internet Explorer
 
-                xmlreq = new ActiveXObject("Microsoft.XMLHTTP");
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
 
             } catch (e2) {
 
                 // Unable to create an XMLHttpRequest by any means
-                xmlreq = false;
+                xhr = false;
             }
         }
     }
 
-    return xmlreq;
+    return xhr;
 }
 
 /*
@@ -56,8 +56,6 @@ function getReadyStateHandler(req, responseJsonHandler) {
             if (req.status == 200) {
 
                 // Pass the JSON payload of the response to the handler function.
-                console.log("ajax1: " + req.responseText);
-                // Pass the XML payload of the response to the handler function.
                 responseJsonHandler(req.responseText);
 
             } else {

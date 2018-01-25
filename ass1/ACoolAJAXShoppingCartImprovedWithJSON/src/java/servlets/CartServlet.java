@@ -16,7 +16,7 @@ import javax.json.JsonReader;
 public class CartServlet extends HttpServlet {
 
     /**
-     * Updates Cart, and outputs XML representation of contents
+     * Updates Cart, and outputs JSON representation of contents
      */
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws java.io.IOException {
@@ -60,15 +60,13 @@ public class CartServlet extends HttpServlet {
             }
         }
 
-        // encode cart as XML, tell the response that it contains XML, and write the cart to it (as payload)
-        //sendXMLResponse(res, cart);
         // encode cart as JSON, tell the response that it contains JSON, and write the cart to it (as payload)
         sendJsonResponse(res, cart);
     }
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws java.io.IOException {
         // Bounce to post, for debugging use
-        // Hit this servlet directly from the browser to see XML
+        // Hit this servlet directly from the browser to see JSON
         doPost(req, res);
     }
 
@@ -86,12 +84,6 @@ public class CartServlet extends HttpServlet {
         }
 
         return cart;
-    }
-
-    private void sendXMLResponse(HttpServletResponse res, Cart cart) throws IOException {
-        String cartXml = cart.toXml();
-        res.setContentType("text/xml");
-        res.getWriter().write(cartXml);
     }
 
     private void sendJsonResponse(HttpServletResponse res, Cart cart) throws IOException {
