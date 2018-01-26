@@ -1,8 +1,3 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 var wsUri = "ws://" + document.location.host + document.location.pathname + "shoppingCartEndpoint";
 var websocket = new WebSocket(wsUri);
 websocket.binaryType = "arraybuffer";

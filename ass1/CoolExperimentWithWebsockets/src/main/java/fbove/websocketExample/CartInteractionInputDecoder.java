@@ -22,17 +22,20 @@ public class CartInteractionInputDecoder implements Decoder.Text<CartInteraction
     public CartInteractionInput decode(String string) throws DecodeException {
         System.out.println("decoding: " + string);
         JsonObject jsonObject = Json.createReader(new StringReader(string)).readObject();
-        System.out.println(jsonObject);
-        return new CartInteractionInput(jsonObject);
+        String action = jsonObject.getString("action", null);
+        String itemCode = jsonObject.getString("itemCode", null);
+        return new CartInteractionInput(action, itemCode);
     }
 
     @Override
     public boolean willDecode(String string) {
         try {
-            Json.createReader(new StringReader(string)).readObject();
+            JsonObject object = Json.createReader(new StringReader(string)).readObject();
+            if(object.isNull("action")){
+                return false;
+            }
             return true;
         } catch (JsonException ex) {
-            ex.printStackTrace();
             return false;
         }
     }

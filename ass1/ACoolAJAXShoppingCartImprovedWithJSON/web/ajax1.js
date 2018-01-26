@@ -55,7 +55,7 @@ function getReadyStateHandler(req, responseJsonHandler) {
             // Check that we received a successful response from the server
             if (req.status == 200) {
 
-                // Pass the JSON payload of the response to the handler function.
+                // Pass the JSON payload of the response to the handler function: responseText instead of responseXml!
                 responseJsonHandler(req.responseText);
 
             } else {

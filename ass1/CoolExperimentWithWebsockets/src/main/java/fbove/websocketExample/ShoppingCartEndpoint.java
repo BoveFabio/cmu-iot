@@ -5,11 +5,9 @@
 package fbove.websocketExample;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import javax.json.JsonObject;
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -44,7 +42,7 @@ public class ShoppingCartEndpoint {
 
         System.out.println(cartInteractionInput);
 
-        // Get reqired parameter values
+        // Get required parameter values from interactionInput
         String action = cartInteractionInput.action;
         String itemCode = cartInteractionInput.itemCode;
 
@@ -53,7 +51,6 @@ public class ShoppingCartEndpoint {
         If one is not provided or if the action does not equal "add" nor "remove", nothing happens (i.e., no error)
          */
         if ((action != null) && (itemCode != null)) {
-            System.out.println("Doing some action");
             if ("add".equals(action)) {
                 cart.addItem(itemCode);
 
@@ -63,26 +60,8 @@ public class ShoppingCartEndpoint {
             }
         }
 
-        JsonObject cartJson = cart.getJSON();
-        String cartJsonString = cartJson.toString();
-
         for (Session peer : peers) {
-            peer.getBasicRemote().sendText(cartJsonString);
+            peer.getBasicRemote().sendObject(cart);
         }
     }
-
-    // if session contains no Cart object, a new Cart is created and bound to the session
-    private Cart getCartFromSession(Session session) {
-
-        Cart cart = (Cart) session.getUserProperties().get("cart");
-
-        if (cart == null) {
-            System.out.println("New Cart");
-            cart = new Cart();
-            session.getUserProperties().put("cart", cart);
-        }
-
-        return cart;
-    }
-
 }

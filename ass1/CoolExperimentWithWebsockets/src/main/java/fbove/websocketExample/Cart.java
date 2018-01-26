@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package fbove.websocketExample;
 
-import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,13 +10,13 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
 /**
- *
- * @author nb
+ * Models a shopping cart
  */
 public class Cart {
-
+    /**
+     * Stores the contents of the shopping cart.
+     */
     private HashMap<Item, Integer> contents;
-    private JsonObject json;
 
     /**
      * Creates a new Cart instance
@@ -37,39 +32,36 @@ public class Cart {
     /**
      * Adds a named item to the cart
      *
-     * @param itemName The name of the item to add to the cart
+     * @param itemCode The code of the item to add to the cart
      */
     public void addItem(String itemCode) {
 
-        Catalog catalog = new Catalog();
-
-        if (catalog.containsItem(itemCode)) {
-            Item item = catalog.getItem(itemCode);
+        if (Catalog.containsItem(itemCode)) {
+            Item item = Catalog.getItem(itemCode);
 
             int newQuantity = 1;
             if (contents.containsKey(item)) {
                 Integer currentQuantity = contents.get(item);
                 newQuantity += currentQuantity.intValue();
             }
-
+            
             contents.put(item, new Integer(newQuantity));
         }
     }
 
     /**
-     * Removes the named item from the cart
+     * Removes the named item from the cart completely, i.e. sets quantity to zero
      *
-     * @param itemName Name of item to remove
+     * @param itemCode code of item to remove
      */
     public void removeItems(String itemCode) {
-
-        contents.remove(new Catalog().getItem(itemCode));
+        contents.remove(Catalog.getItem(itemCode));
     }
 
     /**
      * Decreases item quantity by one.
      *
-     * @param itemCode Name of the item to remove
+     * @param itemCode code of the item to remove
      */
     public void decreaseItemQuantity(String itemCode) {
         Item item = Catalog.getItem(itemCode);
@@ -104,11 +96,8 @@ public class Cart {
     private String getCartTotal() {
         int total = 0;
 
-        for (Iterator<Item> I = contents.keySet().iterator(); I.hasNext();) {
-            Item item = I.next();
-            int itemQuantity = contents.get(item).intValue();
-
-            total += (item.getPrice() * itemQuantity);
+        for (Item item : contents.keySet()) {
+            total += (item.getPrice() * contents.get(item));
         }
 
         return "$" + new BigDecimal(total).movePointLeft(2);
@@ -117,9 +106,5 @@ public class Cart {
     @Override
     public String toString() {
         return toJSON().toString();
-    }
-
-    public JsonObject getJSON() {
-        return toJSON();
     }
 }

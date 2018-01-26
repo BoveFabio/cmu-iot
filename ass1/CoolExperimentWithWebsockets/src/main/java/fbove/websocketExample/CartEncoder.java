@@ -16,7 +16,7 @@ public class CartEncoder implements Encoder.Text<Cart> {
 
     @Override
     public String encode(Cart cart) throws EncodeException {
-        return cart.getJSON().toString();
+        return cart.toJSON().toString();
     }
 
     @Override

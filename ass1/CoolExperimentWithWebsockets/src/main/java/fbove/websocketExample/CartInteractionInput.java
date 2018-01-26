@@ -16,9 +16,9 @@ public class CartInteractionInput {
     public String action;
     public String itemCode;
     
-    CartInteractionInput(JsonObject jsonObject){
-        action = jsonObject.getString("action", null);
-        itemCode = jsonObject.getString("itemCode", null);
+    CartInteractionInput(String action, String itemCode){
+        this.action = action;
+        this.itemCode = itemCode;
         System.out.println("Finished decoding: " + this);
     }
     

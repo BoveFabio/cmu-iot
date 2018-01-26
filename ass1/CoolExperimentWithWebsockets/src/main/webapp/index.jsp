@@ -29,7 +29,6 @@
                 Total cost: <span id="total">$0.00</span>
             </div>
         </div>
-        <!-- only intermediary solution -->
         <!-- By calling the removeFromCart function, we make a dummy interaction with the server, resulting in an answer with the unchanged current cart. -->
         <script>
             if(websocket.readyState == websocket.OPEN){
