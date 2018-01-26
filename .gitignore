@@ -28,3 +28,6 @@ hs_err_pid*
 /ass1/ACoolAJAXShoppingCartImprovedWithJSON/dist/
 /ass1/CoolExperimentWithWebsockets/target/
 /ass1/CoolExperimentWithWebsockets/nbproject/
+/ass1/PhotonTracker/nbproject/private/
+/ass1/PhotonTracker/dist/
+/ass1/PhotonTracker/build/
