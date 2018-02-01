@@ -19,18 +19,22 @@ function requestUpdate() {
 
 
 /*
- * Update shopping-cart area of page to reflect contents of cart
- * described in XML document.
+ * Receive Photon ID and date of latest heartbeat. Update the webpage to display it accordingly.
  */
 function updateStatus(photonInfoJsonString) {
-    console.log(photonInfoJsonString);
     var photonInfo = JSON.parse(photonInfoJsonString);
     var generated = photonInfo.generated;
+    
     if (generated > lastCartUpdate) {
         lastCartUpdate = generated;
         document.getElementById("photonId").innerHTML = photonInfo.photonId;
+        
         if (new Date() - photonInfo.lastHeartbeat > 20000) {
-            document.getElementById("lastHeartbeat").innerHTML = "Disconnected";
+            if (photonInfo.lastHeartbeat <= 0) {
+                document.getElementById("lastHeartbeat").innerHTML = "No Photon heartbeats received yet.";
+            } else {
+                document.getElementById("lastHeartbeat").innerHTML = new Date(photonInfo.lastHeartbeat) + "\nProbably disconnected";
+            }
         } else {
             document.getElementById("lastHeartbeat").innerHTML = new Date(photonInfo.lastHeartbeat);
         }

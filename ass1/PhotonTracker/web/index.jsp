@@ -14,9 +14,12 @@
                 <tbody>
                     <tr><td>ID:</td><td id="photonId"></td></tr>
                     <tr><td>Last heartbeat:</td><td id="lastHeartbeat"></td></tr>
+                    <!-- AJAX update -->
                     <tr><td><button onclick="requestUpdate()">Refresh</button></td><td></td></tr>
                 </tbody>
             </table>
         </div>
+        <!-- For initial update -->
+        <script>requestUpdate()</script>
     </body>
 </html>

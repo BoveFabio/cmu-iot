@@ -28,22 +28,13 @@ public class CartServlet extends HttpServlet {
         // Retrieve cart from session or create new one
         Cart cart = getCartFromSession(req);
 
-        // Get reqired parameter values
-        String action = "";
-        String item = "";
-        if (false) {
-            action = req.getParameter("action");
-            item = req.getParameter("item");
-        } else{
-            String requestBody = req.getReader().lines().collect(Collectors.joining());
-            System.out.println(requestBody);
-            JsonReader reader = Json.createReader(new StringReader(requestBody));
-            JsonObject interactionObject = reader.readObject();
-            
-            action = interactionObject.getString("action");
-            item = interactionObject.getString("item");
-        }
-        System.out.println(action + " " + item);
+        // Get reqired parameter values from request body
+        String requestBody = req.getReader().lines().collect(Collectors.joining());
+        JsonReader reader = Json.createReader(new StringReader(requestBody));
+        JsonObject interactionObject = reader.readObject();
+
+        String action = interactionObject.getString("action");
+        String item = interactionObject.getString("item");
 
         /*
         Check whether action and item are present
