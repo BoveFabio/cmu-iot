@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- this style tag defines what a div in this document looks like. Specifically it makes following div's 200px wide, 100px high, and gives them a solid border. -->
+        <style>
+            div {
+                width: 200px;
+                height: 100px;
+                border: 1px solid black;
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+        <script type="text/javascript" language="javascript" src="mqtt.js"></script>
+    </head>
+    <body>
+
+        <!-- Whenever the mouse moves inside the canvas, "myFunction" is executed. Whenever the mouse leaves the canvas, "clearCoor" is executed. -->
+        <!-- The size and border is defined by the above style tag. -->
+        <div onmousemove="myFunction(event)" onmouseout="clearCoor()"></div>
+
+        <p>Mouse over the rectangle above, and get the coordinates of your mouse pointer.</p>
+
+        <p>When the mouse is moved over the div, the p element will display the horizontal and vertical coordinates of your mouse pointer, whose values are returned from the clientX and clientY properties on the 
+            MouseEvent object.</p>
+
+        <p id="demo"></p>
+
+    </body>
+</html>
