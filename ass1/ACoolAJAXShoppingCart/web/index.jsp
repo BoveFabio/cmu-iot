@@ -28,5 +28,6 @@
                 </ul>
                 Total cost: <span id="total">$0.00</span>
             </div>
+        </div>
     </body>
 </html>

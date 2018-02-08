@@ -41,3 +41,6 @@ hs_err_pid*
 /ass2/MouseTrackerSubscriber/nbproject/private/
 /ass2/MouseTrackerSubscriber/build/
 /ass2/MouseTrackerSubscriber/dist/
+/ass2/TemperatureSensorPProject/target/
+/ass2/TemperatureSubscriberProject/target/
+/ass2/TemperatureSensorProject/target/
