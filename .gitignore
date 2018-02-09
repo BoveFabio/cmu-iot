@@ -44,3 +44,6 @@ hs_err_pid*
 /ass2/TemperatureSensorPProject/target/
 /ass2/TemperatureSubscriberProject/target/
 /ass2/TemperatureSensorProject/target/
+/ass2/DiceRollingClientProject/target/
+/ass2/DiceRollingMonitorProject/nbproject/private/
+/ass2/DiceRollingMonitorProject/target/
