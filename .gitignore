@@ -47,3 +47,6 @@ hs_err_pid*
 /ass2/DiceRollingClientProject/target/
 /ass2/DiceRollingMonitorProject/nbproject/private/
 /ass2/DiceRollingMonitorProject/target/
+/ass2/PhotonMQTTSubscriber/nbproject/private/
+/ass2/PhotonMQTTSubscriber/build/
+/ass2/PhotonMQTTSubscriber/dist/

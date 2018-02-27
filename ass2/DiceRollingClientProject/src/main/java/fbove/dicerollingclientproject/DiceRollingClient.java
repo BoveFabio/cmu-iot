@@ -37,6 +37,7 @@ public class DiceRollingClient {
 
             // every second, generate two random integers between 1 and 6
             while (true) {
+                // no need for cryptographic randomness
                 int die1 = ThreadLocalRandom.current().nextInt(1, 7);
                 int die2 = ThreadLocalRandom.current().nextInt(1, 7);
 

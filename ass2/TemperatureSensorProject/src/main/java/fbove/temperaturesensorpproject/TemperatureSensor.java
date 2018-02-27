@@ -26,14 +26,15 @@ public class TemperatureSensor {
         String broker = "tcp://localhost:1883";
         String clientId = "TemperatureSensor";
 
-        MqttClient sampleClient;
+        MqttClient client;
 
         try {
             // connect to MQTT broker
-            sampleClient = new MqttClient(broker, clientId);
+            client = new MqttClient(broker, clientId);
+            
             MqttConnectOptions connOpts = new MqttConnectOptions();
             connOpts.setCleanSession(true);
-            sampleClient.connect(connOpts);
+            client.connect(connOpts);
 
             // every 5 seconds, generate random temperature and publish it
             while (true) {
@@ -53,7 +54,7 @@ public class TemperatureSensor {
 
                 MqttMessage message = new MqttMessage(content.getBytes());
                 message.setQos(qos);
-                sampleClient.publish(topic, message);
+                client.publish(topic, message);
 
                 Thread.sleep(5000);
             }

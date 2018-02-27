@@ -4,7 +4,6 @@ var chartSingleDice;
 var chartSumDice;
 var mqttClient;
 
-
 var optionsSingleDice = {
     width: 400, height: 150,
     min: 1, max: 6,
@@ -31,6 +30,7 @@ var optionsDiceDistribution = {
     }
 };
 
+// used to keep track of previous observations
 var distributionData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 mqttClient = new Paho.MQTT.Client("localhost", 9002, "DiceSubscriber");
@@ -39,15 +39,17 @@ mqttClient = new Paho.MQTT.Client("localhost", 9002, "DiceSubscriber");
 mqttClient.onConnectionLost = onConnectionLost;
 mqttClient.onMessageArrived = onMessageArrived;
 
-
+// executed when google charts has loaded
 function googleLoadCallback() {
     // initialize data for drawing charts
+    // gauges for single dice have the same layout
     dataSingleDice = google.visualization.arrayToDataTable([
         ['Label', 'Value'],
         ['Die 1', 3],
         ['Die 2', 3]
     ]);
 
+    // gauges for sum and average sum have the same layout
     dataSumDice = google.visualization.arrayToDataTable([
         ['Label', 'Value'],
         ['Sum', 7],
@@ -80,6 +82,7 @@ function googleLoadCallback() {
 
 // update data and redraw charts according to received throws
 function updateCharts(die1, die2) {
+    // throws of a sum of 2 are stored in index 0, hence, we need to subtract 2 to get the correct value
     distributionData[die1 + die2 - 2]++;
 
     var totalThrows = 0;
@@ -104,7 +107,7 @@ function updateCharts(die1, die2) {
     chartDiceDistribution.draw(dataDiceDistribution, optionsDiceDistribution);
 }
 
-// MQTT PART
+// START MQTT PART
 
 // called when the client connects
 function onConnect() {
